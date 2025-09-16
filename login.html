@@ -1,0 +1,215 @@
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> login </title>
+    <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/256/12/12096.png">
+
+
+
+
+<style> 
+
+    body {
+
+      /* background-color: rgb(30 30 30); */
+
+        background: linear-gradient(to right, rgb(50 0 0), rgb(10 10 10));
+
+	font-family: Georgia, serif;
+        margin: 0;
+        color: white;
+
+          }
+
+
+    .header {
+
+    /*background-color: rgb(20 20 20);*/
+
+    background: linear-gradient(to top, rgb(0 0 0) 0%, rgb(20 20 20) 35%);
+    display:flex;
+    overflow: hidden;
+    align-items: center;
+
+    }
+
+
+     .Taburi{ 
+
+     font-size: 35px;
+     display: flex;
+     padding-top: 0px;
+     gap: 10px;
+     
+
+     }
+
+
+
+    .Taburi a {
+
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 2px 14px;
+    background-color: rgb(15 15 15);
+    transition: all 0.3s ease-out;
+    border-radius: 10px;
+
+    }
+
+
+    .Taburi a:hover {
+
+    background-color: rgb(150 0 0)
+
+    }
+
+    .Taburi a:active {
+
+    background-color: rgb(110 0 0)
+
+    }
+
+
+    .SignIn {
+
+    font-size: 35px;
+    display: flex;
+    margin-left: auto;
+    
+
+}
+
+    .SignIn a {
+
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 2px 14px;
+    background-color: rgb(15 15 15);
+    transition: all 0.5s ease-out;
+    border-radius: 10px;
+
+}
+
+    .SignIn a:hover {
+
+    background-color: rgb(150 0 0)
+
+    }
+
+    .SignIn a:active {
+
+    background-color: rgb(110 0 0)
+
+    }
+
+
+
+    .buton-taburi{
+
+        margin-right: 2em;
+        cursor: pointer;
+        content-visibility: hidden;
+
+    }
+
+
+
+</style>
+
+
+</head>
+
+<body>
+
+
+
+<div class="header">
+	<a href="pagina.html">
+    <img src="fox.png" width="80" height="80" draggable="false">
+    	</a>
+    <nav class=" Taburi ">
+	 
+        <a href="Pagina.html">Home</a>
+        <a href="Shop.html">Shop</a>
+        <a href="#Tutorials">Tutorials</a>
+        <a href="#News">News</a>
+
+	
+    </nav>
+
+    <nav class="SignIn">
+
+    <a href="Profil.html">Sign In</a>
+
+    </nav>
+
+    <span class="buton-taburi">
+            <svg id="menu-button" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40">
+              <path class="close-path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)"></path>
+
+            </svg>
+
+    </span>
+
+</div>
+
+
+
+
+
+
+<div style="
+    width: 380px;
+    height: 360px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20vh auto;
+    align-items: center;
+    flex-wrap: nowrap;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: black 13px 7px 17px 0px;
+">
+    <form action="/login.php" method="post" id="login-form" autocomplete="on" style="
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+">
+        <input id="login" name="email" type="email" placeholder="Email" required autocomplete="email" style="
+    padding: 15px;
+    font-size: 20px;
+">
+        <input id="password" name="password" type="password" placeholder="Password" required minlength="6" autocomplete="current-password" style="
+    padding: 15px;
+    font-size: 20px;
+">
+
+
+    <button type="submit" placeholder="Submit" style="
+    padding: 15px;
+    font-size: 20px;
+">Submit</button>
+
+    
+    </form>
+</div>
+
+
+
+
+
+
+
+</body>
+
+
+
+</html>
