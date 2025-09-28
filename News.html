@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/256/12/12096.png">
+
+<style>
+
+
+html {
+
+overflow-x: hidden;
+width: 100%;
+
+}
+
+
+
+
+body {
+    font-family: Georgia, serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh; /* să ocupe tot ecranul */
+    background: linear-gradient(to right, rgb(50 0 0), rgb(10 10 10));
+}
+
+
+    p{
+
+    font-size: 20px;
+
+    }
+
+
+
+    li{
+
+    font-size: 23px;
+
+    }
+
+
+
+    .header {
+        background: linear-gradient(to top, rgb(0 0 0) 0%, rgb(20 20 20) 35%);
+        display:flex;
+        overflow: hidden;
+        align-items: center;
+    }
+
+
+    .menu-window {
+
+        width: 100%;
+        height: 100vh;
+        background-color: black;
+        position: fixed;
+        display: table;
+        left: 0;
+        z-index: 999;
+        top: -500vh;
+        transition: all 0.4s ease;
+
+    }
+
+
+
+    .buttons-window{
+
+        content-visibility: visible;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        margin-right: 2em;
+        cursor: pointer;
+
+    }
+
+
+
+     .tab-window{ 
+
+    font-size: 35px;
+    display: flex;
+    padding-top: 0px;
+    gap: 18px;
+    flex-direction: column;
+    align-items: center;
+         
+
+     }
+
+
+
+    .tab-window a {
+
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 2px 14px;
+    background-color: rgb(15 15 15);
+    transition: all 0.3s ease-out;
+    border-radius: 10px;
+
+    }
+
+
+    .tab-window a:hover {
+
+    background-color: rgb(150 0 0)
+
+    }
+
+    .tab-window a:active {
+
+    background-color: rgb(110 0 0)
+
+    }
+
+
+
+
+    .header img {
+     
+     float: left;
+ 
+     }
+
+
+
+    .path-h{
+
+        fill:white;
+
+}
+
+    .close-path-h{
+
+        fill:white;
+
+}
+
+
+
+
+.big-section {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+    margin: 60px 30px;
+    flex: 1; /* să ocupe spațiul rămas după header */
+    min-height: 0; /* necesar pentru scroll intern să funcționeze */
+}
+
+
+
+    .list-tutorials{
+
+    max-width: 15vw;
+    background-color: black;
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px 0px black;
+
+}
+
+    .Taburi{ 
+        font-size: 35px;
+        display: flex;
+        padding-top: 0px;
+        gap: 10px;
+    }
+
+    .Taburi a {
+        text-decoration: none;
+        color: white;
+        text-align: center;
+        padding: 2px 14px;
+        background-color: rgb(15 15 15);
+        transition: all 0.3s ease-out;
+        border-radius: 10px;
+    }
+
+    .Taburi a:hover { background-color: rgb(150 0 0) }
+
+    .Taburi a:active { background-color: rgb(110 0 0) }
+
+    .SignIn {
+        font-size: 35px;
+        display: flex;
+        margin-left: auto;
+    }
+
+    .SignIn a {
+        text-decoration: none;
+        color: white;
+        text-align: center;
+        padding: 2px 14px;
+        background-color: rgb(15 15 15);
+        transition: all 0.5s ease-out;
+        border-radius: 10px;
+    }
+
+    .SignIn a:hover { background-color: rgb(150 0 0) }
+
+    .SignIn a:active { background-color: rgb(110 0 0) }
+
+    .buton-taburi{
+        margin-right: 2em;
+        cursor: pointer;
+        content-visibility: hidden;
+    }
+
+
+
+
+
+	.container{
+
+	width: 100%;
+	padding-right: 10px;
+	padding-left: 10px;
+
+	}
+
+
+
+
+
+	.News-Tabs{
+
+	display: flex;
+	box-sizing: border-box;
+	font-size: 17px;
+	text-align: left;
+	margin-right: 16vw;
+	margin-left: 16vw;
+	margin-top: 150px;
+	margin-bottom: 150px;
+	gap: 40px;
+	flex-direction: column;
+
+	}
+
+
+
+
+
+	.News{
+
+	position: relative;
+	width: 100%;
+	padding-right: 10px;
+	padding-left: 10px;
+	color: white;
+	background-color: rgb(20 20 20);
+	border-radius: 10px;
+	box-shadow: 0px 0px 20px black;
+
+	}
+
+
+
+
+    footer{
+
+    background-image: url(graveyard.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-color: rgb(20 20 20);
+    width: 100%;
+    height: 100%;
+    margin-top: 400px;
+    box-shadow: 0px 0px 20px black;
+
+
+
+}
+
+
+    .copyright {
+
+        color: rgb(50 50 50);
+        font-size: 15px;
+        margin-left: 5%;
+
+}
+
+
+
+    .nav-section{
+
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: 10px;
+                color: rgb(120 120 120);
+		
+
+
+}
+
+    .nav-section a{
+
+                text-decoration:none;
+                color: rgb(120 120 120);
+}
+
+    .nav-section a:hover{
+
+                color: rgb(180 180 180);
+}
+
+
+
+
+    .list-footer{
+
+        color: white;
+        display:  flex;
+        flex-direction: row;
+        gap: 10vw;
+        padding-left: 0px;
+        margin-left: 5%;
+        margin-top: 3%;
+        margin-right: 750px;
+        font-size: 17px;
+        list-style-type: none;
+	
+
+}
+
+
+   .div-footer{
+
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+        border-top: 2px solid;
+        border-color: rgb(10 10 10);
+
+}    
+
+
+    .footer-copyright {
+
+    display: flex;
+    flex-direction: row;
+    gap: 20%	;
+
+
+    }
+
+
+
+
+
+    @media screen and (max-width: 1050px) {
+
+
+
+     span.buton-taburi {
+
+             content-visibility: visible;
+
+     }
+
+
+
+      .Taburi{
+
+            content-visibility: hidden;
+
+      }
+
+
+      .SignIn{
+
+            content-visibility: hidden;
+
+      }
+
+     .footer {
+
+          background-image: none;
+	  overflow-x: scroll;
+     }
+
+
+}
+
+
+
+
+
+@media (max-width: 768px) {
+
+
+.News {
+  font-size: 15px;
+  padding: 10px;
+}
+.News h1 {
+  font-size: 20px;
+}
+
+
+        div.div-footer{
+
+            gap: 50px;
+
+        }
+
+        
+        ul.list-footer{
+
+                gap: 3vw	;
+                font-size: 12px;
+                margin-left: 40px;
+
+        }
+
+
+        ul.list-footer li{
+
+                font-size: 12px;
+
+        }
+
+
+
+        div.footer-copyright {
+
+                flex-direction: column;
+                gap: 0;
+                align-items: center;
+                
+
+        }
+        
+        h1.copyright {
+
+                padding-left: 0px;
+
+        }
+
+
+
+}
+
+
+
+
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="header">
+	<a href="pagina.html">
+    <img src="fox.png" alt="DarkFox Logo" width="80" height="80" draggable="false">
+    	</a>
+    <nav class=" Taburi ">
+	 
+        <a href="index.html">Home</a>
+        <a href="Shop.html">Shop</a>
+        <a href="Tutorials.html">Tutorials</a>
+        <a href="#News">News</a>
+
+	
+    </nav>
+
+    <nav class="SignIn">
+
+    <a href="Profil.html">Sign In</a>
+
+    </nav>
+
+    <span class="buton-taburi">
+            <svg id="menu-button" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40">
+              <path class="close-path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)"></path>
+
+            </svg>
+
+    </span>
+
+</div>
+
+
+
+
+
+
+
+<div     id="menu"      class = " menu-window ">
+
+
+
+    <span class="buttons-window">
+
+        <img src="fox.png" width="80" height="80">
+
+
+        <svg  id="menu-close" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40" >
+              <path class="path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)">  </path>
+
+            </svg>
+    
+
+    </span>
+
+
+      <nav class = " tab-window ">
+	 
+        <a href = "index.html">Home</a>
+        <a href = "Shop.html">Shop</a>
+        <a href = "Tutorials.html">Tutorials</a>
+        <a href = "News.html">News</a>
+        <a href = "Profil.html ">Sign In</a>
+	
+    </nav>
+
+</div>
+
+
+
+
+
+
+<section class="News-Section">
+
+
+<div class="container">
+
+
+
+
+	<div class="News-Tabs">
+
+
+
+		<div class="News">
+
+
+			<h1>very bad news</h1>
+
+			<h2>11-Jun-25 20:31</h2>
+		
+
+			
+
+			<p>
+
+Hello @everyone <br>
+
+I come to you, with very bad news and, it is with a heavy heart that I must announce that our Zomboid server will be closed in the following days/weeks, permanently. <br>
+
+The main reason for this closure is that the energy companies have drastically increased their prices—approximately double the cost—and unfortunately, we can no longer afford to keep the whole server online.<br>
+
+However, I want you to know that this is not the end of our journey. In the future, if we find a more affordable hosting option or alternative solutions, we may reopen the server.<br>
+
+I am deeply sorry to bring you this news. This community has been an absolutely incredible place. We’ve forged new friendships, created unforgettable memories, and shared so many thrilling adventures together.<br>
+
+As a small token of appreciation, until the server will close, starting with this moment, the server will feature:<br>
+x15 XP<br>
+Cars spawning in good condition<br>
+Increased loot spawns (ammo, weapons, food, etc.)<br>
++40 trait points<br>
+
+Let’s make the most of these final days together. Thank you all for being part of this amazing and beautiful community. The discord server will remain open.<br>
+
+Stay safe, stay healthy, be happy ❤️<br>
+
+
+</p>
+
+
+		</div> 
+
+
+
+
+
+
+
+
+		<div class="News">
+
+			<h1>WEEKEND MADNESS INCOMING</h1>
+
+			<h2>23-May-25 19:03</h2>
+
+			<p>
+
+
+@everyone <br>
+
+🎉 WEEKEND MADNESS INCOMING! 🎉<br>
+💥 Starting TONIGHT at 10PM until Monday 9AM 💥<br>
+
+💫 We’re launching a 🚀 x3 XP EVENT 🚀 to help you level up like a maniac on energy drinks!<br>
+Whether you're smashing zombies, looting, crafting, or just breathing in-game air — you’ll earn TRIPLE XP! 😱🧠<br>
+
+But wait… there’s more chaos! 😈<br>
+🤖 Bot Events are going live!<br>
+🎁 Giveaways will pop out like surprise jump scares!<br>
+🎮 Compete, participate, and maybe win some spicy rewards 🔥<br>
+
+📅 Mark your calendars.<br>
+⏰ Set your alarms.<br>
+💪 Prepare your lootbags.<br>
+
+Because this weekend... we GRIND!<br>
+
+</p>
+
+
+		</div>
+
+
+
+
+
+
+
+		<div class="News">
+
+			<h1>new Discord tag</h1>
+
+			<h2>21-May-25 20:02</h2>
+
+			<p>
+@everyone SURVIVORS, LISTEN UP!<br>
+We’re proud (and slightly terrified) to announce a new Discord tag that will shake the very foundations of the apocalypse…<br>
+
+🔥 #FOCK is here.<br>
+
+Yes, you heard right.<br>
+No, it’s not a typo.<br>
+Yes, it’s exactly what you think it is.<br>
+
+🎖️ Who gets the FOCK tag?<br>
+Only the finest. The boldest. The ones who survive with style, panic with grace, and loot with no pants on.<br>
+
+👀 What does it mean?<br>
+It means you’re FOCKING part of the elite.<br>
+You’ve earned your badge in blood, sweat, and a suspicious amount of canned tuna.<br>
+
+💬 Use it wisely:<br>
+Don’t just survive — FOCKING survive.<br>
+Don’t just loot — FOCK everything in that house.<br>
+Don’t just die — die with the FOCK tag glowing proudly above your corpse.<br>
+
+Tag up. Show off. Be proud.<br>
+You’re not just a survivor anymore…<br>
+
+You’re FOCKED UP LEGENDARY. 💀💪<br>
+
+
+P.S: Because i am kinda drunk, everyone will receive 4000 premium coins, as a gift ❤️<br>
+
+</p>
+
+
+		</div>
+
+
+
+
+
+
+
+		<div class="News">
+
+			<h1>sorry for the unexpected downtime earlier today</h1>
+
+			<h2>18-May-25 12:27</h2>
+
+			<p>
+
+Hello @everyone <br>
+
+We're really sorry for the unexpected downtime earlier today – we had some issues with the virtual machine where the project zomboid server was running. Everything is back online now! 🔧✅<br>
+
+To make it up to you – everyone has received 3000 Premium Coins in their account. 🎁💰<br>
+
+Thank you for your patience and for being part of this amazing community.<br>
+Keep fighting, keep surviving — we love you all! ❤️<br>
+
+</p>
+
+
+		</div>
+
+
+
+
+
+	</div>
+
+
+
+
+</div>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- footer -->
+<div>
+
+<footer class = "footer">
+
+
+    <div class="div-footer">
+
+      <ul class="list-footer">
+
+        <li> 
+
+                <h2 style="color: rgb(100 0 0 );">Account</h2>
+
+                <nav class="nav-section" >
+
+                       <a>My Account</a>
+                       <a>Sign In</a>
+                       <a>Login In</a>
+                       <a>Password recovery</a>
+                
+            </nav>
+
+            
+        </li>
+
+            <li> 
+
+                   <h2 style="color: rgb(100 0 0 );">Support</h2>
+
+                    <nav class="nav-section">
+
+                       <a>Privacy Policy</a>
+                       <a>Terms and Conditions</a>
+                       <a>GDPR</a>
+                       <a href="https://anpc.ro/">ANPC</a>
+
+            </nav>
+            
+
+        </li>
+
+
+            <li> 
+
+                   <h2 style="color: rgb(100 0 0 );">Contact</h2>
+
+                    <nav class="nav-section">
+
+                       <a>Telefon: 07...</a>
+                       <a>E-Mail: exemple@domain.com</a>
+                       <a>Romania, Location</a>
+                       <a>DarkFox S.R.L</a>
+
+            </nav>
+            
+
+        </li>
+
+        
+    </ul>
+
+
+    <div class = "footer-copyright">
+
+                <h1 class="copyright"> DarkFox Community| Copyright © 2025. All Rights Reserved.</h1>
+                <h1 class="copyright" > Made by Mario </h1>
+
+    </div>
+
+    
+</div>
+
+
+</footer>
+</div>
+<!-- end footer-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+document.getElementById("menu-button").addEventListener("click", Open);
+
+function Open()   {
+document.getElementById("menu").style.top = 0 ;
+}
+
+
+
+document.getElementById("menu-close").addEventListener("click", Close);
+
+function Close()    {
+document.getElementById("menu").style.top = "-500vw" ;
+}
+
+</script>
+
+
+
+
+
+</body>
+</html>
