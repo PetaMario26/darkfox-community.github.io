@@ -1,0 +1,174 @@
+    body {
+
+      /* background-color: rgb(30 30 30); */
+
+        background: linear-gradient(to right, rgb(50 0 0), rgb(10 10 10));
+
+	font-family: Georgia, serif;
+        margin: 0;
+        color: white;
+
+          }
+
+
+    .header {
+
+    /*background-color: rgb(20 20 20);*/
+
+    background: linear-gradient(to top, rgb(0 0 0) 0%, rgb(20 20 20) 35%);
+    display:flex;
+    overflow: hidden;
+    align-items: center;
+
+    }
+
+
+     .Taburi{ 
+
+     font-size: 35px;
+     display: flex;
+     padding-top: 0px;
+     gap: 10px;
+     
+
+     }
+
+
+
+    .Taburi a {
+
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 2px 14px;
+    background-color: rgb(15 15 15);
+    transition: all 0.3s ease-out;
+    border-radius: 10px;
+
+    }
+
+
+    .Taburi a:hover {
+
+    background-color: rgb(150 0 0)
+
+    }
+
+    .Taburi a:active {
+
+    background-color: rgb(110 0 0)
+
+    }
+
+
+    .SignIn {
+
+    font-size: 35px;
+    display: flex;
+    margin-left: auto;
+    
+
+}
+
+    .SignIn a {
+
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 2px 14px;
+    background-color: rgb(15 15 15);
+    transition: all 0.5s ease-out;
+    border-radius: 10px;
+
+}
+
+    .SignIn a:hover {
+
+    background-color: rgb(150 0 0)
+
+    }
+
+    .SignIn a:active {
+
+    background-color: rgb(110 0 0)
+
+    }
+
+
+
+    .buton-taburi{
+
+        margin-right: 2em;
+        cursor: pointer;
+        content-visibility: hidden;
+
+    }
+
+    .login-tab{
+
+    width: 380px;
+    height: 360px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20vh auto;
+    align-items: center;
+    flex-wrap: nowrap;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: black 13px 7px 17px 0px;
+
+    }
+
+
+    .login-tab form{
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    }
+
+    .login-tab input{
+
+    padding: 15px;
+    font-size: 20px;
+
+    }
+
+
+    .login-tab button{
+
+    padding: 15px;
+    font-size: 20px;
+
+    }
+
+    .login-tab a{
+
+    color: darkred;
+    text-decoration: none;
+
+    }
+
+    .login-tab a:hover{
+
+
+    text-decoration: underline;
+
+    }
+
+
+
+@media screen and (max-width: 380px){
+
+	.login-tab{
+
+		width: 300px;
+
+	}
+
+}
+
+

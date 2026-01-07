@@ -1,0 +1,378 @@
+
+body {
+    background-color: rgb(30 30 30);
+    font-family: Georgia, serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh; /* să ocupe tot ecranul */
+}
+
+
+    p{
+
+    font-size: 20px;
+
+    }
+
+
+
+    li{
+
+    font-size: 23px;
+
+    }
+
+
+
+    .header {
+        background: linear-gradient(to top, rgb(0 0 0) 0%, rgb(20 20 20) 35%);
+        display:flex;
+        overflow: hidden;
+        align-items: center;
+    }
+
+
+    .menu-window {
+
+        width: 100%;
+        height: 100vh;
+        background-color: black;
+        position: fixed;
+        display: table;
+        left: 0;
+        z-index: 999;
+        top: -500vh;
+        transition: all 0.4s ease;
+
+    }
+
+
+
+    .buttons-window{
+
+        content-visibility: visible;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        margin-right: 2em;
+        cursor: pointer;
+
+    }
+
+
+
+     .tab-window{ 
+
+    font-size: 35px;
+    display: flex;
+    padding-top: 0px;
+    gap: 18px;
+    flex-direction: column;
+    align-items: center;
+         
+
+     }
+
+
+
+    .tab-window a {
+
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 2px 14px;
+    background-color: rgb(15 15 15);
+    transition: all 0.3s ease-out;
+    border-radius: 10px;
+
+    }
+
+
+    .tab-window a:hover {
+
+    background-color: rgb(150 0 0)
+
+    }
+
+    .tab-window a:active {
+
+    background-color: rgb(110 0 0)
+
+    }
+
+
+
+
+    .header img {
+     
+     float: left;
+ 
+     }
+
+
+
+    .buton-taburi{
+
+        margin-right: 2em;
+        cursor: pointer;
+        content-visibility: hidden;
+
+    }
+
+    .path-h{
+
+        fill:white;
+
+}
+
+    .close-path-h{
+
+        fill:white;
+
+}
+
+
+.big-section {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+    margin: 60px 30px;
+    flex: 1; /* să ocupe spațiul rămas după header */
+    min-height: 0; /* necesar pentru scroll intern să funcționeze */
+}
+
+
+
+    .list-tutorials{
+
+    max-width: 15vw;
+    background-color: black;
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px 0px black;
+
+}
+
+    .Taburi{ 
+        font-size: 35px;
+        display: flex;
+        padding-top: 0px;
+        gap: 10px;
+    }
+
+    .Taburi a {
+        text-decoration: none;
+        color: white;
+        text-align: center;
+        padding: 2px 14px;
+        background-color: rgb(15 15 15);
+        transition: all 0.3s ease-out;
+        border-radius: 10px;
+    }
+
+    .Taburi a:hover { background-color: rgb(150 0 0) }
+
+    .Taburi a:active { background-color: rgb(110 0 0) }
+
+    .SignIn {
+        font-size: 35px;
+        display: flex;
+        margin-left: auto;
+    }
+
+    .SignIn a {
+        text-decoration: none;
+        color: white;
+        text-align: center;
+        padding: 2px 14px;
+        background-color: rgb(15 15 15);
+        transition: all 0.5s ease-out;
+        border-radius: 10px;
+    }
+
+    .SignIn a:hover { background-color: rgb(150 0 0) }
+
+    .SignIn a:active { background-color: rgb(110 0 0) }
+
+    .buton-taburi{
+        margin-right: 2em;
+        cursor: pointer;
+        content-visibility: hidden;
+    }
+
+.list-tutorials {
+    max-width: 15vw;
+    background-color: black;
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px 0px black;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 80vh; /* ca scroll-ul să funcționeze fără să depășească ecranul */
+    scrollbar-width: thin;
+    scrollbar-color: #222222 black;
+}
+.list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+.list a {
+    margin: 10px 15px;
+    background: rgb(69 69 69);
+    border-radius: 4px;
+    padding: 12px;
+    text-decoration: none;
+    color: white;
+}
+
+
+    .list a:hover{ background: rgb(115 115 115); }
+
+.tabs-tutorials {
+    max-height: 77vh;
+    color:white;
+    flex: 1; /* să ocupe spațiul rămas */
+    background: black;
+    border-radius: 8px;
+    position: relative;
+    min-height: 400px;
+    overflow-y: auto; /* scroll vertical real */
+    box-shadow: 0px 0px 20px 0px black;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #222222 black;
+}
+.tabs-tutorials div {
+    display: none; /* ascuns implicit */
+    width: 100%;
+    height: auto; /* se adaptează la conținut */
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.tabs-tutorials div.active {
+    display: block; /* doar tab-ul activ se vede */
+}
+
+
+
+
+
+
+
+
+    @media screen and (max-width: 1050px) {
+
+
+
+     span.buton-taburi {
+
+             content-visibility: visible;
+
+     }
+
+
+
+      .Taburi{
+
+            content-visibility: hidden;
+
+      }
+
+
+      .SignIn{
+
+            content-visibility: hidden;
+
+      }
+
+     .footer {
+
+          background-image: none;
+
+     }
+
+
+}
+
+
+
+
+
+@media (max-width: 768px) {
+    .big-section {
+        flex-direction: column-reverse;
+        margin: 20px 10px;
+    }
+    .list-tutorials {
+        max-width: 100%;
+        max-height: 30vh;
+        margin-bottom: 20px;
+    }
+    .tabs-tutorials {
+        min-height: auto;
+        max-height: 60vh;
+    }
+    .list a { font-size: 14px; padding: 8px; margin: 5px 0; }
+    .tabs-tutorials div { padding: 15px; }
+
+
+        div.div-footer{
+
+            gap: 50px;
+          overflow-x: scroll;
+        }
+
+        
+        ul.list-footer{
+
+                gap: 3vw	;
+                font-size: 12px;
+                margin-left: 40px;
+
+        }
+
+
+        ul.list-footer li{
+
+                font-size: 12px;
+
+        }
+
+
+
+        div.footer-copyright {
+
+                flex-direction: column;
+                gap: 0;
+                align-items: center;
+                
+
+        }
+        
+        h1.copyright {
+
+                padding-left: 0px;
+
+        }
+
+
+
+}
+
+@media (max-width: 480px) {
+    .list a { font-size: 13px; padding: 6px; }
+    .tabs-tutorials div { padding: 10px; }
+}
+
+@media (max-width: 320px) {
+    .list a { font-size: 12px; padding: 5px; }
+    .tabs-tutorials div { padding: 8px; }
+}

@@ -4,11 +4,11 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Login </title>
+    <title> Register </title>
     <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/256/12/12096.png">
 
 
-    <link rel="stylesheet" href="login-style.css">
+    <link rel="stylesheet" href="register-style.css">
      <link rel="stylesheet" href="style.css">
 
 
@@ -31,8 +31,13 @@
 
 <div class = "header">
 
+
+	<a href="index.html">
     <img src="fox.png" width ="80" height="80" draggable="false">
     
+	</a>
+
+
     <nav class = " Taburi ">
 	 
         <a href = "index.html">Home</a>
@@ -69,8 +74,9 @@
 
     <span class="buttons-window">
 
+	<a href="index.html">
         <img src="fox.png" width="80" height="80">
-
+	</a>
 
         <svg  id="menu-close" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40" >
               <path class="path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)">  </path>
@@ -103,16 +109,18 @@
 
     <form action="Profil.html" method="post" id="login-form" autocomplete="on" >
 
-
+	<input id="nume" placeholder="Nume" required>
 
         <input id="login" name="email" type="email" placeholder="Email" required autocomplete="email">
 
         <input id="password" name="password" type="password" placeholder="Password" required minlength="6" autocomplete="current-password">
 
+	<input placeholder = " Repeat Password " type="password" required minlength = "6">
+
 
     <!-- <a href="#Recuperare">Forgot your password?</a> -->
 
-    <button type="submit" placeholder="Submit">Submit</button>
+    <button type="submit" placeholder="Submit">Register</button>
 
     
     </form>

@@ -69,8 +69,9 @@
 
     <span class="buttons-window">
 
+	<a href="index.html">
         <img src="fox.png" width="80" height="80">
-
+	</a>
 
         <svg  id="menu-close" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40" >
               <path class="path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)">  </path>
@@ -110,9 +111,9 @@
         <input id="password" name="password" type="password" placeholder="Password" required minlength="6" autocomplete="current-password">
 
 
-    <!-- <a href="#Recuperare">Forgot your password?</a> -->
+    <a href="#Recuperare">Forgot your password?</a>
 
-    <button type="submit" placeholder="Submit">Submit</button>
+    <button type="submit" placeholder="Submit">Register</button>
 
     
     </form>
