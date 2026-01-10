@@ -1,29 +1,612 @@
 <?php
 session_start();
 
-// 1. Verificăm dacă utilizatorul este logat
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// 2. Conectarea la baza de date
 $conn = new mysqli("localhost", "root", "", "vulpecola");
 if ($conn->connect_error) {
-    die("Eroare conexiune DB");
+    die("Eroare DB");
 }
 
-// 3. Luăm datele utilizatorului curent
-$userId = (int) $_SESSION['user_id'];
-$query = "SELECT Nume, Email, ProfilePicture, JoinDate 
-          FROM users 
-          WHERE IdUtilizator = $userId";
-$result = $conn->query($query);
+$user_id = $_SESSION['user_id'];
 
-if (!$result || $result->num_rows === 0) {
-    echo "Utilizator inexistent.";
-    exit();
+$sql = "
+SELECT 
+    u.Nume,
+    u.JoinDate,
+    u.ProfilePicture,
+    u.Banner,
+    s.total_kills,
+    s.days_survived,
+    s.Rank
+FROM users u
+LEFT JOIN players_stats s ON u.IdUtilizator = s.IdUtilizator
+WHERE u.IdUtilizator = ?
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    $nume_user     = "User necunoscut";
+    $avatar        = "miau.jpg";
+    $banner        = "background-image.png";
+    $total_kills   = 0;
+    $days_survived = 0;
+    $rank_user     = "N/A";
+    $joined_since  = "-";
+} else {
+    $row = $result->fetch_assoc();
+
+    $nume_user     = $row['Nume'];
+    $avatar        = $row['ProfilePicture'] ?: "miau.jpg";
+    $banner        = $row['Banner'] ?: "background-image.png";
+    $total_kills   = $row['total_kills'] ?? 0;
+    $days_survived = $row['days_survived'] ?? 0;
+    $rank_user     = $row['Rank'] ?? "N/A";
+    $joined_since  = $row['JoinDate'];
 }
-
-$user = $result->fetch_assoc();
 ?>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkFox - Profil</title>
+    <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/256/12/12096.png" alt="fox.png">
+
+    <link rel="stylesheet" href="profil-style.css">
+
+
+
+    <style>
+
+    .show{display:flex}
+
+    </style>
+
+</head>
+
+
+
+
+<body>
+
+
+<!-- INCEPUT MODIFICARE -->
+
+
+<div class="change-nickname">
+
+<div class="meniu-change-nickname">
+
+
+
+<a id="close-meniu" style="
+    cursor: pointer;
+    transform: translateX(18vh);
+">
+<svg aria-hidden="true" focusable="false" class="octicon octicon-x" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style=""><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path></svg>
+</a>
+
+
+<h4 style="
+    margin: 0px;
+">New Nickname</h4>
+
+
+<input id="new-nickname" placeholder="Enter new nickname" style="
+    display: flex;
+    margin: 0px 40px;
+    border-radius: 8px;
+">
+
+
+
+<button type="button" id="submit-Nickname" style="margin: 0px 15vh;border-radius: 9px;background: white;">Submit</button>
+    
+</div>
+    
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- MODIFICARE -->
+
+
+<div class=" pagina " > 
+
+
+
+
+    <div class=" nav-bar" > 
+
+
+      <span id="buton-taburi" class="buton-taburi" onclick="openNav()">
+            <svg id="menu-button" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40">
+                     <path class="close-path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)">                                     
+                     </path>
+  
+             </svg>
+
+     </span>
+
+
+
+
+            <div class="top-nav-bar">
+
+                <nav class="top-nav-buttons">
+
+                    <a href="index.html">🏠Home</a>
+                    <a href="shop.html">🛒Shop</a>
+                    <a href="Tutorials.html">🔍Tutorials</a>
+                    <a href="News.html">&#128226 News</a>
+
+                </nav>
+
+            </div>
+
+
+        <div class="bottom-nav-bar">
+
+            <nav class="bottom-nav-buttons">
+
+                    <a href="#Friends">&#128491 Friends</a>
+                    <a href="#Faction">&#128369 Faction</a>
+
+            </nav>
+
+        </div>
+
+
+
+     </div>
+
+
+
+
+        <div class=" header " >  
+
+          <a href="index.html">
+
+             <img src="fox.png" width ="80" height="80" style="border-radius:10000px;">
+
+          </a>
+
+ </div>
+
+
+<div class=" profile"> 
+
+
+    
+   <!-- <div class="style-profile"> -->
+
+
+<div class="style-profile"
+     style="background-image: url('uploads/<?php echo htmlspecialchars($banner); ?>');">
+
+
+
+
+        <div class="continut-profile">
+
+
+             <div class="background-image">
+
+
+                <div class="profile-menu">
+
+
+                                         <div class="profile-content">
+    
+                                                                  <span>
+
+
+                                                                                     <!--  <img class="profile-image" src="miau.jpg" draggable="false">   -->   
+
+											<img class="profile-image"
+     src="uploads/<?php echo htmlspecialchars($avatar); ?>">
+
+
+                                                                  </span>
+
+                                           </div>
+
+
+                                              <div class="profile-name" style="color: white;">
+
+                                                               <h2 id="nume"><?php echo htmlspecialchars($nume_user); ?></h2>
+
+
+                                                </div>
+
+
+                     </div>
+
+                    
+                </div>
+
+            
+
+                                  <div class="edit">
+
+
+                                                   <button id="Edit-Profile" class="Edit-Profile"  style="display: flex;align-items: center;"> Edit Profile 
+                                                             <i class="styles__Holder-sc-b4ec5d1e-0 ktOtlK" role="img">
+
+                                                                       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="20" width="20" class="styles__StyledISvg-sc-b4ec5d1e-1 bLBxpr">
+
+                                                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 17l6-6-1.414-1.414L12 14.17 7.414 9.587 6 11l6 6z" fill="currentColor"></path></svg></i> 
+
+                                                   </button>
+
+
+                                                  <div id="dropdown-menu" class="dropdown-menu"> 
+
+
+                                                         <div class="style-dropdown-menu">
+
+                                                             <button id = "NewNickname">Nickname</button>
+                                                             <button id="NewAvatar">Avatar</button>
+                                                             <button id="NewBackground">Background</button>
+
+                                                  </div>
+
+
+                            </div>
+
+
+                                  </div>
+
+
+                             <div id="dropdown-menu" class="dropdown-menu" > 
+
+
+                                 <div class = "style-dropdown-menu">
+
+                                     <button>Nickname</button>
+                                     <button>Avatar</button>
+                                     <button>Background</button>
+
+                                 </div>
+
+
+                            </div>
+
+
+        </div>
+
+        
+<!--   Form pentru functionalitatea butoanelor Avatar si Background -->
+
+
+<form id="avatarForm" enctype="multipart/form-data">
+    <input type="file" id="avatarInput" name="avatar" accept="image/*" hidden>
+</form>
+
+<form id="bannerForm" enctype="multipart/form-data">
+    <input type="file" id="bannerInput" name="banner" accept="image/*" hidden>
+</form>
+
+
+
+
+
+    </div>
+
+
+         <div class = " Stats " >
+
+             <header> <h2>STATISTICI</h2> </header>
+
+
+
+                        <div class = "Style-Stats">
+
+
+                                 <div class= " Column-Stats">
+
+                                           <div class="Column-Style">
+
+                                                     <span> Total Kills </span>
+                                                     <span id="TotalKills">  <?php echo $total_kills; ?>  </span>
+
+                                           </div>
+
+
+                                           <div class="Column-Style">
+
+                                                     <span>Days Survived</span>
+                                                     <span id="DaysSurvived"> <?php echo $days_survived; ?>  </span>
+
+                                           </div>
+
+
+
+                                 </div>
+
+                                 <div class="Column-Stats">
+
+                                           <div class="Column-Style">
+
+                                                     <span>Joined Since</span>
+                                                     <span id="JoinedSince"> <?php echo htmlspecialchars($joined_since); ?>  </span>
+
+                                           </div>
+
+                                           <div class="Column-Style">
+
+                                                     <span>Rank</span>
+                                                     <span id="RankUser"> <?php echo htmlspecialchars($rank_user); ?> </span>
+                                                     <!-- <span style="color: red; text-shadow: 0 0 20px red;">Administrator</span> -->
+
+                                           </div>
+
+                                 </div>
+
+
+                    </div>
+
+
+
+           </div>
+
+
+
+
+
+                                           <div class="Misiuni">
+
+                                               <h2>Missions</h2>
+
+
+
+
+
+                                                            <div class="Reward">
+
+
+
+
+
+                                               <span class="To-do1">
+
+
+                                                                                                              <h2>Reward</h2>
+                                                                                                              <h3>100 cooper coins</h3>
+
+
+                                                                      </span>                    
+
+
+
+
+
+                                  <span class="To-do2" >
+
+
+
+                                                                <h3>Invite a friend on server</h3>
+
+
+
+                                               <div class="progress">
+
+
+                                                                         <h3 style="margin: 0;">0/1</h3>
+                                                                         <h3 style="display:none;">&#10004</h3>
+
+                                                                          <div class="progress-bar">
+                                                                                                                      <div class="style-progress-bar"></div>
+                                                                           </div>
+
+
+
+                                                                           </div>
+                                  </span>
+
+
+
+
+                                                            </div>
+
+
+
+
+
+
+                                           </div>
+
+
+
+
+  </div> 
+
+
+
+</div><!-- Pagina end -->
+
+
+
+
+
+<div id="slide-navbar" class="slide-navbar">  
+
+<div class=" navbar-header ">
+
+    <img src="fox.png" width="80" height="80">
+
+<span id="navbar-menu-button" class="navbar-menu-button" onclick="closeNav()" style="fill:white;">
+
+      <svg id="menu-button" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40">
+
+           <path class="close-path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)">
+           </path>
+
+         </svg>
+
+</span>
+    
+</div>
+
+
+
+
+<div>
+
+
+
+    
+                    <nav class="slide-nav-buttons">
+
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="Tutorials.html">Tutorials</a>
+                    <a href="News.html">News</a>
+                    <a href="#Friends"> Friends</a>
+                    <a href="#Faction"> Faction</a>
+
+                </nav>
+
+
+</div> <!-- slide-navbar -->
+
+
+
+
+
+
+
+
+
+
+<script>
+// --- Dropdown Edit Profile ---
+const editBtn = document.getElementById("Edit-Profile");
+const dropdown = document.getElementById("dropdown-menu");
+
+editBtn.addEventListener("click", function() {
+    dropdown.classList.toggle("show");
+});
+
+// Click în afara dropdown închide dropdown-ul
+window.addEventListener("click", function(e){
+    if(!dropdown.contains(e.target) && e.target !== editBtn){
+        dropdown.classList.remove("show");
+    }
+});
+
+// --- Slide navbar ---
+function openNav(){
+    const slideNav = document.getElementById("slide-navbar");
+    slideNav.style.width = "100%";
+    slideNav.style.left = "0px";
+}
+
+function closeNav(){
+    const slideNav = document.getElementById("slide-navbar");
+    slideNav.style.width = "0%";
+    slideNav.style.left = "-500px";
+}
+
+// --- Modal Nickname ---
+const nicknameBtn = document.getElementById("NewNickname");
+const changeNicknameMenu = document.querySelector(".change-nickname");
+const closeMenuBtn = document.getElementById("close-meniu");
+const submitNicknameBtn = document.getElementById("submit-Nickname");
+const nicknameInput = document.getElementById("new-nickname");
+
+// Deschide modalul Nickname
+nicknameBtn.addEventListener("click", function(e) {
+    e.stopPropagation(); // Nu închide dropdown-ul
+    changeNicknameMenu.style.visibility = "visible";
+});
+
+// Închide modalul
+closeMenuBtn.addEventListener("click", function() {
+    changeNicknameMenu.style.visibility = "hidden";
+});
+
+// Submit Nickname (AJAX)
+submitNicknameBtn.addEventListener("click", function() {
+    const newNickname = nicknameInput.value.trim();
+    if(newNickname === "") return alert("Trebuie să introduci un nickname!");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "update_nickname.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onload = function() {
+        if(xhr.status === 200){
+            const response = JSON.parse(xhr.responseText);
+            if(response.success){
+                document.getElementById("nume").textContent = newNickname;
+                changeNicknameMenu.style.visibility = "hidden";
+                nicknameInput.value = "";
+            } else {
+                alert(response.message);
+            }
+        } else {
+            alert("Eroare server");
+        }
+    };
+    xhr.send("nickname=" + encodeURIComponent(newNickname));
+});
+
+// --- Upload Avatar & Banner ---
+const avatarInput = document.getElementById("avatarInput");
+const bannerInput = document.getElementById("bannerInput");
+
+document.getElementById("NewAvatar").addEventListener("click", () => avatarInput.click());
+document.getElementById("NewBackground").addEventListener("click", () => bannerInput.click());
+
+avatarInput.addEventListener("change", () => uploadImage("avatar"));
+bannerInput.addEventListener("change", () => uploadImage("banner"));
+
+function uploadImage(type) {
+    const formData = new FormData();
+    const input = type === "avatar" ? avatarInput : bannerInput;
+    formData.append(type, input.files[0]);
+
+    fetch("update_profile_images.php", { method: "POST", body: formData })
+        .then(r => r.text())
+        .then(() => location.reload());
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
+

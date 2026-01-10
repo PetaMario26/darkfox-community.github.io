@@ -191,7 +191,7 @@
 
     .style-profile{
 
-        background-image: url(background-image.png);
+    /*    background-image: url(background-image.png);*/
         background-repeat: no-repeat;
         background-position: top;
         background-color: grey;

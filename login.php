@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['user_nume'] = $row['Nume'];
     
 
-    header("Location: shop.php"); 
+    header("Location: profil.php"); 
     exit();
 } else {
             $error_message = "Parolă incorectă!";
@@ -75,10 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <nav class = " Taburi ">
 	 
-        <a href = "index.php">Home</a>
+        <a href = "index.html">Home</a>
         <a href = "Shop.php">Shop</a>
-        <a href = "Tutorials.php">Tutorials</a>
-        <a href = "News.php">News</a>
+        <a href = "Tutorials.html">Tutorials</a>
+        <a href = "News.html">News</a>
 
 	
     </nav>

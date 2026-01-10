@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2026 at 10:57 PM
+-- Generation Time: Jan 10, 2026 at 09:37 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -73,6 +73,18 @@ CREATE TABLE `players_stats` (
   `Rank` varchar(50) DEFAULT NULL,
   `Portofel` decimal(15,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `players_stats`
+--
+
+INSERT INTO `players_stats` (`IdUtilizator`, `total_kills`, `days_survived`, `Rank`, `Portofel`) VALUES
+(5, 0, 0, 'Survivor', 500.00),
+(6, 0, 0, 'Survivor', 500.00),
+(7, 0, 0, 'Survivor', 500.00),
+(8, 0, 0, 'Survivor', 500.00),
+(9, 0, 0, 'Survivor', 500.00),
+(10, 0, 0, 'Survivor', 500.00);
 
 -- --------------------------------------------------------
 
@@ -155,7 +167,15 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`IdUtilizator`, `Email`, `Nume`, `Parola`, `JoinDate`, `ProfilePicture`, `Banner`) VALUES
 (1, 'gabitmc9@gmail.com', 'Rosca Gabriel', '$2y$10$OZQxCdW9HdmXvv4X81yNkuqEHVrIwqbcJFDW75948xza8Ij8sTHdy', '2026-01-08 21:17:36', 'uploads/profiles/profile_1_1767902692.png', 'default-banner.png'),
-(2, 'marian23@yahoo.com', 'Marian Fasole', '$2y$10$A0Hpq//Z2QlxefylecSXEeEXvhvxAhOzA8HJPMAYZ8ODFoQ/tZ.rG', '2026-01-08 22:48:58', 'default-avatar.png', 'default-banner.png');
+(2, 'marian23@yahoo.com', 'Marian Fasole', '$2y$10$A0Hpq//Z2QlxefylecSXEeEXvhvxAhOzA8HJPMAYZ8ODFoQ/tZ.rG', '2026-01-08 22:48:58', 'default-avatar.png', 'default-banner.png'),
+(3, 'm1tz4_logged@yahoo.com', 'MariusMoga', '$2y$10$ozzoWbO9oRjk3x2ktBRsAuljJ3z7UE5l81pYr5YL4qv7/ShcCrZCe', '2026-01-10 19:09:17', 'miau.jpg', 'default-banner.png'),
+(4, 'gabi.tmc2004@yahoo.com', 'Geanina', '$2y$10$kb0FS3Nxfl8wrU3oa27DmugNzq2VvlaL3qX4b7TpQgDR/wuIyxZDa', '2026-01-10 19:43:05', 'miau.jpg', 'default-banner.png'),
+(5, 'pufulete@yahoo.com', 'Floricica Dansatoare', '$2y$10$lwDqe779iDChCHaOrxjPxeFPh.9r8IbU2ukrPemNPx1wqImH6u3P2', '2026-01-10 19:45:05', 'miau.jpg', 'default-banner.png'),
+(6, 'george@yahoo.com', 'George', '$2y$10$dKyjxKGkhgKsj1J82sWg5etJmM8PMLGuefQQpH9sQS.ZlcV69Y0d2', '2026-01-10 19:54:34', 'miau.jpg', 'default-banner.png'),
+(7, 'Mario@gmail.com', 'Mario12', '$2y$10$k6zqXDNUmPqMW6oQZLc8sO/aT.j9Qx7VY.Ahm38gfpPslvmpbYczG', '2026-01-10 20:44:07', '6962ad591da2c_profile-image.PNG', '6962ad39dc5e0_graveyard.png'),
+(8, 'Test@gmail.com', 'Test', '$2y$10$R4nKDDUdw3gVHVyK1NnTFu7O5l.jPUIflryvbxKezZN6JMYwO4UVG', '2026-01-10 21:50:38', 'miau.jpg', 'default-banner.png'),
+(9, 'test1@gmail.com', 'test1', '$2y$10$WdQq2pUA/VXM5TULQFTRleC1XXtlsfhY7ciiBuhObo3vBcbD2f2LC', '2026-01-10 21:55:21', 'miau.jpgbackground-image.png', 'default-banner.png'),
+(10, 'test2@gmail.com', 'Valoare', '$2y$10$EMRbjS5pgPXS3NKz.QfUQutIU3XNvUmR4l5QLYBmt65Hq.54adPgS', '2026-01-10 22:04:45', '6962b4b9f3369_miau.jpg', '6962b4b591597_car1.png');
 
 --
 -- Indexes for dumped tables
@@ -217,7 +237,8 @@ ALTER TABLE `tranzactii`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`IdUtilizator`),
   ADD UNIQUE KEY `Email` (`Email`),
-  ADD UNIQUE KEY `Nume` (`Nume`);
+  ADD UNIQUE KEY `Nume` (`Nume`),
+  ADD UNIQUE KEY `Nume_2` (`Nume`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -251,7 +272,7 @@ ALTER TABLE `tranzactii`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `IdUtilizator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdUtilizator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
