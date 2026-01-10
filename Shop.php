@@ -1,8 +1,16 @@
 <?php
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.html");
+    exit();
+}
 $conn = new mysqli("localhost", "root", "", "vulpecola");
 
 if ($conn->connect_error) { die("Conexiune esuata: " . $conn->connect_error); }
+
+$userId = (int) $_SESSION['user_id'];
+$userResult = $conn->query("SELECT Nume FROM users WHERE IdUtilizator = $userId");
+$user = $userResult->fetch_assoc();
 
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 $categories = isset($_GET['category']) ? $_GET['category'] : [];
@@ -385,18 +393,43 @@ if (isset($_POST['buy_item'])) {
 
 
 
-    <div>
-            <a href="Profil.html"> My Account  </a>
-    </div>
+ <div class="nav-bar-acc">
+    <?php if(isset($_SESSION['user_id'])): 
+        $u_id = $_SESSION['user_id'];
+        
+        // Interogăm tabela players_stats pentru coloana Portofel
+        // Presupunem că legătura se face prin IdUtilizator (sau IdJucator)
+        $wallet_query = $conn->query("SELECT Portofel FROM players_stats WHERE IdUtilizator = $u_id");
+        
+        if ($wallet_query && $wallet_query->num_rows > 0) {
+            $wallet_data = $wallet_query->fetch_assoc();
+            $balanta = $wallet_data['Portofel'];
+        } else {
+            $balanta = 0; // Valoare default dacă nu găsește înregistrarea
+        }
+    ?>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; margin-right: 15px;">
+            <span style="color: #00ff00; font-weight: bold; font-size: 18px;">
+                💰 <?php echo number_format($balanta); ?> CC
+            </span>
+            <small style="color: #aaa; font-size: 11px;">BALANCE</small>
+        </div>
+        
+        <a href="Profil.php"> My Account </a>
+    <?php else: ?>
+        <a href="login.php"> Sign In </a>
+    <?php endif; ?>
 
+    <a href="#cart"> My Cart </a>
+   
+         <a><?php echo htmlspecialchars($user['Nume']); ?></a>
+        
+   
 
-
-
-
-    <div>
-        <a href="#cart"> My Cart </a>
-    </div>
-
+   
+    
+</header>
+</div>
 
 
 

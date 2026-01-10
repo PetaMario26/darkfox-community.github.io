@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// 1. Conectarea la baza de date vulpecola
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -9,40 +8,45 @@ $dbname = "vulpecola";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificăm conexiunea
 if ($conn->connect_error) {
     die("Conexiune eșuată: " . $conn->connect_error);
 }
 
 $error_message = "";
 
-// 2. Procesarea formularului la apăsarea butonului Register
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nume = $conn->real_escape_string($_POST['nume']);
     $email = $conn->real_escape_string($_POST['email']);
     $pass = $_POST['password'];
     $confirm_pass = $_POST['confirm_password'];
 
-    // Validare: Parolele să fie identice
     if ($pass !== $confirm_pass) {
         $error_message = "Parolele nu sunt Identice!";
     } else {
-        // Validare: Verificăm dacă email-ul există deja în coloana Email
         $checkEmail = $conn->query("SELECT IdUtilizator FROM users WHERE Email = '$email'");
         
         if ($checkEmail->num_rows > 0) {
             $error_message = "Acest email este deja folosit!";
         } else {
-            // Criptăm parola pentru securitate
             $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
             
-            // Inserăm datele conform structurii tale
+            // 1. Inserăm utilizatorul în tabela 'users'
             $sql = "INSERT INTO users (Nume, Email, Parola, ProfilePicture) 
                     VALUES ('$nume', '$email', '$hashed_password', 'miau.jpg')";
 
             if ($conn->query($sql) === TRUE) {
-                // Salvăm ID-ul în sesiune pentru a-l recunoaște pe pagina de profil
-                $_SESSION['user_id'] = $conn->insert_id;
+                // 2. AFLĂM ID-UL NOU CREAT
+                $new_user_id = $conn->insert_id; 
+
+                // 3. CREĂM RÂNDUL ÎN 'players_stats' PENTRU ECONOMIE
+                // Adăugăm ID-ul și suma de start în Portofel
+                // În register.php, după insert_id
+$sql_stats = "INSERT INTO players_stats (IdUtilizator, Portofel, total_kills, days_survived, Rank) 
+              VALUES ($new_user_id, 500, 0, 0, 'Survivor')";
+$conn->query($sql_stats);
+
+                // Salvăm ID-ul în sesiune și mergem la profil
+                $_SESSION['user_id'] = $new_user_id;
                 header("Location: Profil.php"); 
                 exit();
             } else {
@@ -92,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
     <nav class="SignIn">
         <a href="register.php">Sign Up</a>
-        <a href="login.html">Sign In</a>
+        <a href="login.php">Sign In</a>
     </nav>
     <span class="buton-taburi" id="menu-button">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40">
@@ -113,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="Shop.html">Shop</a>
         <a href="Tutorials.html">Tutorials</a>
         <a href="News.html">News</a>
-        <a href="login.html">Sign In</a>
+        <a href="login.php ">Sign In</a>
     </nav>
 </div>
 

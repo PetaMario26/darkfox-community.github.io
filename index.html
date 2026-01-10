@@ -40,7 +40,7 @@
 
     <nav class = "SignIn">
 
-    <a href = "register.html">Sign In</a>
+    <a href = "register.php">Sign In</a>
 
     </nav>
 
@@ -107,12 +107,12 @@
 
 
 
-<form action="login.html" name="email" method="get">
+<form action="login.php" name="email" method="get">
 
     <div>
 
       
-            <input class="Email" type="email" placeholder="example@gmail.com" autocomplete="email" />
+            <input class="Email" id="email-index" type="email" placeholder="example@gmail.com" autocomplete="email" />
         
 
     </div>
@@ -120,7 +120,8 @@
 
     <div>
 
-        <button class = "Submit" type = "submit"> Login </button>
+        
+        <button class="Submit" type="button" onclick="saveAndGo()"> Login </button>
 
     </div>
         
@@ -349,7 +350,15 @@ document.getElementById("menu-close").addEventListener("click", Close);
 function Close()    {
 document.getElementById("menu").style.top = "-500vw" ;
 }
-
+function saveAndGo() {
+    const emailValue = document.getElementById('email-index').value;
+    if (emailValue) {
+        // Salvăm email-ul în memoria browserului
+        localStorage.setItem('userEmail', emailValue);
+    }
+   
+    window.location.href = 'login.php'; 
+}
 
 
 
