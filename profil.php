@@ -3,7 +3,7 @@ session_start();
 
 // 1. Verificăm dacă utilizatorul este logat
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
 }
 

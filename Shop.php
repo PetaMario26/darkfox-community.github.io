@@ -1,13 +1,61 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
 }
 $conn = new mysqli("localhost", "root", "", "vulpecola");
 
 if ($conn->connect_error) { die("Conexiune esuata: " . $conn->connect_error); }
 
+// 1. Procesare Cumpărare (Trebuie să fie ÎNAINTE de restul interogărilor)
+if (isset($_POST['buy_item'])) {
+    $item_id = (int)$_POST['item_id']; 
+    $user_id = (int)$_SESSION['user_id'];
+
+    $item_query = $conn->query("SELECT Item, Cost FROM shop WHERE Item_id = $item_id");
+    $wallet_query = $conn->query("SELECT Portofel FROM players_stats WHERE IdUtilizator = $user_id");
+
+    if ($item_query && $wallet_query && $item_query->num_rows > 0 && $wallet_query->num_rows > 0) {
+        $item_data = $item_query->fetch_assoc();
+        $wallet_data = $wallet_query->fetch_assoc();
+
+        if ($wallet_data['Portofel'] >= $item_data['Cost']) {
+            $new_balance = $wallet_data['Portofel'] - $item_data['Cost'];
+            
+            // Scădem banii
+            $conn->query("UPDATE players_stats SET Portofel = $new_balance WHERE IdUtilizator = $user_id");
+            
+            // Adăugăm în inventar
+            $inventory_query = "INSERT INTO user_inventory (user_id, item_id, quantity) 
+                                VALUES ($user_id, $item_id, 1) 
+                                ON DUPLICATE KEY UPDATE quantity = quantity + 1";
+            
+            if($conn->query($inventory_query)) {
+                echo "<script>
+                        alert('Ai cumpărat " . addslashes($item_data['Item']) . "!');
+                        window.location.href='shop.php'; 
+                      </script>";
+                exit(); // Oprește încărcarea paginii albe
+            }
+        } else {
+            // FONDURI INSUFICIENTE - Redirect înapoi la shop.php după alertă
+            echo "<script>
+                    alert('Fonduri insuficiente! Ai nevoie de " . $item_data['Cost'] . " CC.');
+                    window.location.href='shop.php';
+                  </script>";
+            exit(); 
+        }
+    } else {
+        echo "<script>
+                alert('Eroare: Produs sau profil negăsit!');
+                window.location.href='shop.php';
+              </script>";
+        exit();
+    }
+}
+
+// 2. Interogările pentru afișarea paginii (Rămân neschimbate)
 $userId = (int) $_SESSION['user_id'];
 $userResult = $conn->query("SELECT Nume FROM users WHERE IdUtilizator = $userId");
 $user = $userResult->fetch_assoc();
@@ -24,31 +72,39 @@ if (!empty($categories)) {
 $result = $conn->query($sql);
 ?>
 <?php
-// PROCESARE CUMPĂRARE
 if (isset($_POST['buy_item'])) {
-    if (!isset($_SESSION['user_id'])) {
-        echo "<script>alert('Trebuie să fii logat pentru a cumpăra!');</script>";
-    } else {
-        $item_id = $_POST['item_id'];
-        $user_id = $_SESSION['user_id'];
+    $item_id = (int)$_POST['item_id'];
+    $user_id = (int)$_SESSION['user_id'];
 
-        // 1. Luăm prețul item-ului și creditele utilizatorului
-        $item_data = $conn->query("SELECT Item, Cost FROM shop WHERE id = $item_id")->fetch_assoc();
-        $user_data = $conn->query("SELECT Credits FROM users WHERE IdUtilizator = $user_id")->fetch_assoc();
+    $item_query = $conn->query("SELECT Item, Cost FROM shop WHERE Item_id = $item_id");
+    $wallet_query = $conn->query("SELECT Portofel FROM players_stats WHERE IdUtilizator = $user_id");
 
-        if ($user_data['Credits'] >= $item_data['Cost']) {
-            // 2. Scădem banii
-            $new_balance = $user_data['Credits'] - $item_data['Cost'];
-            $conn->query("UPDATE users SET Credits = $new_balance WHERE IdUtilizator = $user_id");
+    if ($item_query && $wallet_query && $item_query->num_rows > 0 && $wallet_query->num_rows > 0) {
+        $item_data = $item_query->fetch_assoc();
+        $wallet_data = $wallet_query->fetch_assoc();
+
+        if ($wallet_data['Portofel'] >= $item_data['Cost']) {
+            $new_balance = $wallet_data['Portofel'] - $item_data['Cost'];
+            $conn->query("UPDATE players_stats SET Portofel = $new_balance WHERE IdUtilizator = $user_id");
+            $inventory_query = "INSERT INTO user_inventory (user_id, item_id, quantity) VALUES ($user_id, $item_id, 1) ON DUPLICATE KEY UPDATE quantity = quantity + 1";
             
-            // Aici poți adăuga și o inserare într-un tabel 'inventar' dacă ai unul
-            echo "<script>alert('Ai cumpărat " . $item_data['Item'] . "! Sold nou: $new_balance');</script>";
+            if($conn->query($inventory_query)) {
+                echo "<script>alert('Ai cumparat " . addslashes($item_data['Item']) . "!'); window.location.href='shop.php';</script>";
+                exit();
+            }
         } else {
-            echo "<script>alert('Fonduri insuficiente!');</script>";
+            // Aici e magia: alerta apare, dar window.location te tine pe loc
+            echo "<script>alert('Fonduri insuficiente!'); window.location.href='shop.php';</script>";
+            exit();
         }
     }
 }
 ?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -362,7 +418,7 @@ if (isset($_POST['buy_item'])) {
 
 
 	<div>
-		<a href="index.html">
+		<a href="index.php">
    		 	<img src="fox.png" height="80" width="80">
 		</a>
 	</div>
@@ -377,7 +433,7 @@ if (isset($_POST['buy_item'])) {
         <form method="get">
             <input type="text" name="search" class="search-bar" 
        placeholder="Search" 
-       value="<?php echo htmlspecialchars($search); ?>">>
+       value="<?php echo htmlspecialchars($search); ?>">
         </form>
     </div>
 
@@ -420,7 +476,7 @@ if (isset($_POST['buy_item'])) {
         <a href="login.php"> Sign In </a>
     <?php endif; ?>
 
-    <a href="#cart"> My Cart </a>
+   <a href="inventory.php"> Inventory </a>
    
          <a><?php echo htmlspecialchars($user['Nume']); ?></a>
         
@@ -513,17 +569,20 @@ if (isset($_POST['buy_item'])) {
                 <div> 
                     <h3><?php echo htmlspecialchars($row['Item']); ?></h3> 
                     <p><?php echo number_format($row['Cost']); ?> credits</p> 
-                    <form method="POST" action="shop.php" style="margin-top: 10px;">
-    <input type="hidden" name="item_id" value="<?php echo $row['id']; ?>">
-    <button type="submit" name="buy_item" style="background: green; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">
+                    
+                   <form method="POST" action="shop.php">
+    <input type="hidden" name="item_id" value="<?php echo $row['Item_id']; ?>">
+    
+    <button type="submit" name="buy_item" 
+            data-cost="<?php echo $row['Cost']; ?>" 
+            onclick="return checkMoney(this);" 
+            style="background: green; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">
         Buy Now
     </button>
 </form>
                 </div>
             </li>
         <?php } 
-    } else {
-        echo "<p style='color: white; padding: 20px;'>Nu am găsit iteme.</p>";
     } ?>
 </ul>
 

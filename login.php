@@ -75,10 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <nav class = " Taburi ">
 	 
-        <a href = "index.html">Home</a>
+        <a href = "index.php">Home</a>
         <a href = "Shop.php">Shop</a>
-        <a href = "Tutorials.html">Tutorials</a>
-        <a href = "News.html">News</a>
+        <a href = "Tutorials.php">Tutorials</a>
+        <a href = "News.php">News</a>
 
 	
     </nav>

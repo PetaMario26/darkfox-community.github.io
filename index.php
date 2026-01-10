@@ -1,0 +1,439 @@
+<?php
+session_start();
+$conn = new mysqli("localhost", "root", "", "vulpecola");
+
+if ($conn->connect_error) { die("Conexiune esuata: " . $conn->connect_error); }
+
+// Verificăm dacă există un user logat
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = "";
+
+if ($isLoggedIn) {
+    $userId = (int)$_SESSION['user_id'];
+    // Luăm numele din baza de date folosind ID-ul din sesiune
+    $userResult = $conn->query("SELECT Nume FROM users WHERE IdUtilizator = $userId");
+    if ($userResult && $userResult->num_rows > 0) {
+        $userData = $userResult->fetch_assoc();
+        $userName = $userData['Nume'];
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DarkFox Community - apocalipsa zombie cu prieteni pe Project Zomboid.">
+    <title>DarkFox Community</title>
+    <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/256/12/12096.png">
+
+   <link rel="stylesheet" href="style.css">
+
+    <style>
+
+
+
+    
+    </style>
+
+
+
+</head>
+
+<body>
+
+<header>
+
+<div class = "header">
+
+    <img src="fox.png" width ="80" height="80" draggable="false">
+    
+    <nav class = " Taburi ">
+	 
+        <a href = "index.php">Home</a>
+        <a href = "Shop.php">Shop</a>
+        <a href = "Tutorials.php">Tutorials</a>
+        <a href = "News.php">News</a>
+
+	
+    </nav>
+
+    <nav class="SignIn">
+    <?php if ($isLoggedIn): ?>
+        <a href="Profil.php" style="margin-right: 10px; font-weight: bold; ">
+            <?php echo htmlspecialchars($userName); ?>
+             
+        </a>
+        <a href="logout.php" >Log Out</a>
+    <?php else: ?>
+        <a href="register.php">Sign In</a>
+    <?php endif; ?>
+</nav>
+
+    <span class="buton-taburi">
+            <svg id="menu-button" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40">
+              <path class="close-path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)" ></path>
+
+            </svg>
+
+    </span>
+
+</div>
+
+</header>
+
+
+
+<div     id="menu"      class = " menu-window ">
+
+
+
+    <span class="buttons-window">
+
+        <img src="fox.png" width="80" height="80">
+
+
+        <svg  id="menu-close" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40" >
+              <path class="path-h" d="M4513,179h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" transform="translate(-4513 -179)">  </path>
+
+            </svg>
+    
+
+    </span>
+
+
+      <nav class="tab-window">
+    <a href="index.php">Home</a>
+    <a href="Shop.php">Shop</a>
+    <a href="Tutorials.php">Tutorials</a>
+    <a href="News.php">News</a>
+    
+    <?php if ($isLoggedIn): ?>
+        <a href="logout.php">Log Out</a>
+    <?php else: ?>
+        <a href="register.php">Sign In</a>
+    <?php endif; ?>
+</nav>
+
+</div>
+
+
+
+
+<div class = "Welcome">
+
+    <section>
+
+        <div>
+
+            <h1> Welcome on DarkFox Community </h1>
+
+            <p> Come and join us too </p>
+
+        </div>
+
+    </section>
+
+
+
+<form action="login.php" name="email" method="get">
+
+    <div>
+
+      
+            <input class="Email" id="email-index" type="email" placeholder="example@gmail.com" autocomplete="email" />
+        
+
+    </div>
+
+
+    <div>
+
+        
+        <button class="Submit" type="button" onclick="saveAndGo()"> Login </button>
+
+    </div>
+        
+
+</form>
+
+</div>
+
+
+
+
+
+
+<div class="cards">
+
+    <section class = "pp">
+
+        <ul class = " listP ">
+
+
+
+            <li >
+
+                         <h2> Friends </h2> <img src = "pz3.png" id="photo3" srcset = "pz3.png" alt = " Error image" draggable="false"> 
+
+                                   <p> A friendly community where to meet new people and  make strong friendships while surviving togheter in a world post-apocalyptic</p>
+
+            </li>
+
+
+
+
+            <li >
+
+                         <h2> Faction </h2> <img src = "pz1.png" id="photo1" srcset = "pz1.png" alt = " Error image" draggable="false">
+
+                                   <p>Join in our zombie apocalyptic survivors experts or create your own faction togheter with your friends to fight against zombies </p>
+
+           </li>
+
+
+
+
+            <li>
+
+                         <h2> Good Review </h2> <img src = "pz2.png" id="photo2" srcset = "pz2.png" alt = " Error image" style="object-fit:fill " draggable="false">
+
+                                    <p>The best server from the Romania proven by our community reviews </p>
+
+           </li>
+
+
+        </ul>
+        
+    </section>
+
+</div>
+
+
+
+<div class="click-cards">
+
+    <div id="js-cards3" class="css-cards">
+
+        <div id="js-close3" class="position-cards">
+
+            <img src="pz3.png" draggable="false" style="    max-height: 80vh;
+    max-width: 100%;">
+
+        </div>
+
+    </div>
+
+    <div id="js-cards1" class="css-cards">
+	
+        <div id="js-close1" class="position-cards">
+
+            <img src="pz1.png" draggable="false" style="    max-height: 80vh;
+    max-width: 100%;">
+
+        </div>
+
+    </div>
+
+    <div id="js-cards2" class="css-cards">
+
+        <div id="js-close2" class="position-cards">
+
+            <img src="pz2.png" draggable="false" style="    max-height: 80vh;
+    max-width: 100%;">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<a href="News.php" style="text-decoration:none; margin-top:52vh;">
+
+    <div class = " News ">
+
+        <h1 style="font-family: sans-serif"> News</h1>
+
+
+        <p style="text-indent: 1em; text-align: center; font-family:inherit;">Hello @everyone 
+
+I come to you, with very bad news and, it is with a heavy heart that I must announce that our Zomboid server will be closed in the following days/weeks, permanently. 
+
+The main reason for this closure is that the energy companies have drastically increased their prices—approximately double the cost—and...
+
+        <p>
+
+
+    </div>
+</a>
+
+
+
+<!-- footer -->
+<div>
+<img class="Duck" src="https://media.tenor.com/IxkNRpTbIAQAAAAj/run-duck-help.gif">
+
+<footer class = "footer">
+
+
+    <div class="div-footer">
+
+      <ul class="list-footer">
+
+        <li> 
+
+                <h2 style="color: rgb(100 0 0 );">Account</h2>
+
+                <nav class="nav-section" >
+
+                       <a>My Account</a>
+                       <a>Sign In</a>
+                       <a>Login In</a>
+                       <a>Password recovery</a>
+                
+            </nav>
+
+            
+        </li>
+
+            <li> 
+
+                   <h2 style="color: rgb(100 0 0 );">Support</h2>
+
+                    <nav class="nav-section">
+
+                       <a>Privacy Policy</a>
+                       <a>Terms and Conditions</a>
+                       <a>GDPR</a>
+                       <a href="https://anpc.ro/">ANPC</a>
+
+            </nav>
+            
+
+        </li>
+
+
+            <li> 
+
+                   <h2 style="color: rgb(100 0 0 );">Contact</h2>
+
+                    <nav class="nav-section">
+
+                       <a>Telefon: 07...</a>
+                       <a>E-Mail: exemple@domain.com</a>
+                       <a>Romania, Location</a>
+                       <a>DarkFox S.R.L</a>
+
+            </nav>
+            
+
+        </li>
+
+        
+    </ul>
+
+
+    <div class = "footer-copyright">
+
+                <h1 class="copyright"> DarkFox Community| Copyright © 2025. All Rights Reserved.</h1>
+                <h1 class="copyright" > Made by Mario </h1>
+
+    </div>
+
+    
+</div>
+
+
+</footer>
+</div>
+<!-- end footer-->
+
+
+
+<div class = "Bottom">
+
+        <a href="#twitter " target= "_blank">🐦Twitter</a>
+        <a href="#facebook" target= "_blank">📘Facebook</a>
+        <a href="#Instagram" target= "_blank">📷Instagram</a>
+        <a href="https://discord.gg/mZ9YGnn9" target= "_blank">🦊Discord</a>
+
+
+</div>
+
+
+
+<script>
+
+document.getElementById("menu-button").addEventListener("click", Open);
+
+function Open()   {
+document.getElementById("menu").style.top = 0 ;
+}
+
+
+
+document.getElementById("menu-close").addEventListener("click", Close);
+
+function Close()    {
+document.getElementById("menu").style.top = "-500vw" ;
+}
+function saveAndGo() {
+    const emailValue = document.getElementById('email-index').value;
+    if (emailValue) {
+        // Salvăm email-ul în memoria browserului
+        localStorage.setItem('userEmail', emailValue);
+    }
+   
+    window.location.href = 'login.php'; 
+}
+
+
+
+document.getElementById("photo1").addEventListener("click", Resize1);
+
+function Resize1()   {
+document.getElementById("js-cards1").style.visibility = "visible";
+
+}
+
+document.getElementById("photo2").addEventListener("click", Resize2);
+
+function Resize2()   {
+document.getElementById("js-cards2").style.visibility = "visible";
+
+}
+
+document.getElementById("photo3").addEventListener("click", Resize3);
+
+function Resize3()   {
+document.getElementById("js-cards3").style.visibility = "visible";
+
+}
+
+
+document.getElementById("js-close1").addEventListener("click", Normal);
+document.getElementById("js-close2").addEventListener("click", Normal);
+document.getElementById("js-close3").addEventListener("click", Normal);
+
+function Normal()   {
+document.getElementById("js-cards1").style.visibility = "hidden";
+document.getElementById("js-cards2").style.visibility = "hidden";
+document.getElementById("js-cards3").style.visibility = "hidden";
+}
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>
+
+
+

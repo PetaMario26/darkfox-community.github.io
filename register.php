@@ -85,14 +85,14 @@ $conn->query($sql_stats);
 <body>
 
 <div class="header">
-    <a href="index.html">
+    <a href="index.php">
         <img src="fox.png" width="80" height="80" draggable="false">
     </a>
     <nav class="Taburi">
-        <a href="index.html">Home</a>
-        <a href="Shop.html">Shop</a>
-        <a href="Tutorials.html">Tutorials</a>
-        <a href="News.html">News</a>
+        <a href="index.php">Home</a>
+        <a href="Shop.php">Shop</a>
+        <a href="Tutorials.php">Tutorials</a>
+        <a href="News.php">News</a>
     </nav>
     <nav class="SignIn">
         <a href="register.php">Sign Up</a>
@@ -107,14 +107,14 @@ $conn->query($sql_stats);
 
 <div id="menu" class="menu-window">
     <span class="buttons-window">
-        <a href="index.html"><img src="fox.png" width="80" height="80"></a>
+        <a href="index.php"><img src="fox.png" width="80" height="80"></a>
         <svg id="menu-close" xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 50 40">
              <path d="M0,0h50v6h-50v-6Zm0,17h50v6h-50v-6Zm0,17h50v6h-50v-6Z" fill="white"></path>
         </svg>
     </span>
     <nav class="tab-window">
-        <a href="index.html">Home</a>
-        <a href="Shop.html">Shop</a>
+        <a href="index.php">Home</a>
+        <a href="Shop.php">Shop</a>
         <a href="Tutorials.html">Tutorials</a>
         <a href="News.html">News</a>
         <a href="login.php ">Sign In</a>
