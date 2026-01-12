@@ -1,6 +1,5 @@
 
 
-
     body{
 
         background-color: rgb(20 20 20);
@@ -16,6 +15,146 @@
         -webkit-user-drag: none;
 
     }
+
+
+
+
+   .change-nickname{
+
+
+    background: #000000a1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 3;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+
+
+
+}
+
+
+    .meniu-change-nickname{
+
+
+    z-index: 4;
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+
+    width: 350px;
+    height: 200px;
+    background: white;
+    border-radius: 10px;
+    gap: 25px;
+    align-items: center;
+
+
+
+
+}
+
+
+#lol-chat-container {
+    display: none; /* ÎL ASCUNDEM IMPLICIT */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    width: 650px;
+    height: 400px;
+    background: rgba(1, 10, 19, 0.98);
+    border: 1px solid #c89b3c;
+    box-shadow: 0 0 20px rgba(155, 11, 11, 0.8);
+    transition: transform 0.3s ease, height 0.3s ease;
+}
+
+/* Când este activat din JS, devine flex */
+#lol-chat-container.active {
+    display: flex;
+}
+
+/* Stilul minimizat (nu schimba display:none) */
+#lol-chat-container.minimized {
+    height: 40px;
+    overflow: hidden;
+}
+
+/* Stil când chat-ul este minimizat */
+#lol-chat-container.minimized {
+    height: 40px;
+    overflow: hidden;
+    transform: translateY(0);
+}
+#friends-container {
+    flex: 1; 
+    overflow-y: auto; 
+    padding-bottom: 10px;
+}
+
+#friends-container::-webkit-scrollbar {
+    width: 4px; 
+}
+
+#friends-container::-webkit-scrollbar-track {
+    background: rgba(1, 10, 19, 0.5); 
+}
+
+#friends-container::-webkit-scrollbar-thumb {
+    background: #c89b3c; 
+    border-radius: 2px;
+}
+
+#friends-container::-webkit-scrollbar-thumb:hover {
+    background: #f0e6d2; /* Se luminează la hover */
+}
+#lol-friends-sidebar {
+    width: 180px;
+    background: rgba(1, 10, 19, 0.95);
+    border-right: 1px solid #1e2328;
+    
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+
+#lol-chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#lol-chat-header {
+    cursor: pointer; /* Click aici pentru minimize/maximize */
+    padding: 10px;
+    background: #e70000;
+    border-bottom: 1px solid #00eb14;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chat-history {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Scrollbar minimalist stil LoL */
+#chat-history::-webkit-scrollbar { width: 4px; }
+#chat-history::-webkit-scrollbar-thumb { background: #c89b3c; }
+
+#lol-chat-input-area {
+    padding: 10px;
+    border-top: 1px solid #ffffff;
+}
+
+
 
 
     .pagina{
@@ -145,7 +284,7 @@
 
     .style-profile{
 
-        background-image: url(background-image.png);
+    /*    background-image: url(background-image.png);*/
         background-repeat: no-repeat;
         background-position: top;
         background-color: grey;
@@ -339,6 +478,7 @@
             animation-name: test;
             animation-duration: 2s;
             animation-fill-mode: forwards;
+            animation-iteration-count: infinite;
 
 }
 
@@ -619,4 +759,6 @@
     }
 
  }
+
+
 
