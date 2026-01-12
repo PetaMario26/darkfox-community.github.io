@@ -89,6 +89,97 @@ if ($result->num_rows === 0) {
 
 <!-- INCEPUT MODIFICARE -->
 
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$conn = new mysqli("localhost", "root", "", "vulpecola");
+if ($conn->connect_error) {
+    die("Eroare DB");
+}
+
+$user_id = $_SESSION['user_id'];
+
+$sql = "
+SELECT 
+    u.Nume,
+    u.JoinDate,
+    u.ProfilePicture,
+    u.Banner,
+    s.total_kills,
+    s.days_survived,
+    s.Rank
+FROM users u
+LEFT JOIN players_stats s ON u.IdUtilizator = s.IdUtilizator
+WHERE u.IdUtilizator = ?
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    $nume_user     = "User necunoscut";
+    $avatar        = "miau.jpg";
+    $banner        = "background-image.png";
+    $total_kills   = 0;
+    $days_survived = 0;
+    $rank_user     = "N/A";
+    $joined_since  = "-";
+} else {
+    $row = $result->fetch_assoc();
+
+    $nume_user     = $row['Nume'];
+    $avatar        = $row['ProfilePicture'] ?: "miau.jpg";
+    $banner        = $row['Banner'] ?: "background-image.png";
+    $total_kills   = $row['total_kills'] ?? 0;
+    $days_survived = $row['days_survived'] ?? 0;
+    $rank_user     = $row['Rank'] ?? "N/A";
+    $joined_since  = $row['JoinDate'];
+}
+?>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkFox - Profil</title>
+    <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/256/12/12096.png" alt="fox.png">
+
+    <link rel="stylesheet" href="profil-style.css">
+
+
+
+    <style>
+
+    .show{display:flex}
+
+    </style>
+
+</head>
+
+
+
+
+<body>
+
+
+<!-- INCEPUT MODIFICARE -->
+
 
 <div class="change-nickname">
 
@@ -159,10 +250,10 @@ if ($result->num_rows === 0) {
 
                 <nav class="top-nav-buttons">
 
-                    <a href="index.html">🏠Home</a>
-                    <a href="shop.html">🛒Shop</a>
-                    <a href="Tutorials.html">🔍Tutorials</a>
-                    <a href="News.html">&#128226 News</a>
+                    <a href="index.php">🏠Home</a>
+                    <a href="shop.php">🛒Shop</a>
+                    <a href="Tutorials.php">🔍Tutorials</a>
+                    <a href="News.php">&#128226 News</a>
 
                 </nav>
 
@@ -189,7 +280,7 @@ if ($result->num_rows === 0) {
 
         <div class=" header " >  
 
-          <a href="index.html">
+          <a href="index.php">
 
              <img src="fox.png" width ="80" height="80" style="border-radius:10000px;">
 
@@ -482,10 +573,10 @@ if ($result->num_rows === 0) {
     
                     <nav class="slide-nav-buttons">
 
-                    <a href="index.html">Home</a>
-                    <a href="shop.html">Shop</a>
-                    <a href="Tutorials.html">Tutorials</a>
-                    <a href="News.html">News</a>
+                    <a href="index.php">Home</a>
+                    <a href="shop.php">Shop</a>
+                    <a href="Tutorials.php">Tutorials</a>
+                    <a href="News.php">News</a>
                     <a href="#Friends"> Friends</a>
                     <a href="#Faction"> Faction</a>
 
@@ -503,110 +594,185 @@ if ($result->num_rows === 0) {
 
 
 
+<div id="lol-chat-container">
+    <div id="lol-friends-sidebar">
+        <div class="sidebar-header">SOCIAL</div>
+        <div id="friends-container">
+            </div>
+    </div>
+
+    <div id="lol-chat-window">
+        <div id="lol-chat-header" onclick="toggleChatWindow()">
+            <span id="chat-target-name">Chat</span>
+            <span id="minimize-icon">_</span>
+        </div>
+        <div id="chat-history">
+            </div>
+        <div id="lol-chat-input-area">
+            <input type="hidden" id="selected-friend-id">
+            <input type="text" id="private-msg-input" placeholder="Trimite un mesaj...">
+            <button id="btn-send-private">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#c89b3c">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
-// --- Dropdown Edit Profile ---
+// --- 1. LOGICA INTERFETEI (Dropdown & Nav) ---
 const editBtn = document.getElementById("Edit-Profile");
 const dropdown = document.getElementById("dropdown-menu");
 
-editBtn.addEventListener("click", function() {
-    dropdown.classList.toggle("show");
-});
+if(editBtn) {
+    editBtn.addEventListener("click", () => dropdown.classList.toggle("show"));
+}
 
-// Click în afara dropdown închide dropdown-ul
-window.addEventListener("click", function(e){
-    if(!dropdown.contains(e.target) && e.target !== editBtn){
+window.addEventListener("click", (e) => {
+    if(dropdown && !dropdown.contains(e.target) && e.target !== editBtn){
         dropdown.classList.remove("show");
     }
 });
 
-// --- Slide navbar ---
-function openNav(){
-    const slideNav = document.getElementById("slide-navbar");
-    slideNav.style.width = "100%";
-    slideNav.style.left = "0px";
+function openNav() {
+    const nav = document.getElementById("slide-navbar");
+    nav.style.width = "100%"; nav.style.left = "0px";
 }
 
-function closeNav(){
-    const slideNav = document.getElementById("slide-navbar");
-    slideNav.style.width = "0%";
-    slideNav.style.left = "-500px";
+function closeNav() {
+    const nav = document.getElementById("slide-navbar");
+    nav.style.width = "0%"; nav.style.left = "-500px";
 }
 
-// --- Modal Nickname ---
+// --- 2. LOGICA PROFIL (Nickname & Upload) ---
 const nicknameBtn = document.getElementById("NewNickname");
 const changeNicknameMenu = document.querySelector(".change-nickname");
-const closeMenuBtn = document.getElementById("close-meniu");
-const submitNicknameBtn = document.getElementById("submit-Nickname");
-const nicknameInput = document.getElementById("new-nickname");
 
-// Deschide modalul Nickname
-nicknameBtn.addEventListener("click", function(e) {
-    e.stopPropagation(); // Nu închide dropdown-ul
-    changeNicknameMenu.style.visibility = "visible";
-});
+if(nicknameBtn) {
+    nicknameBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        changeNicknameMenu.style.visibility = "visible";
+    });
+}
 
-// Închide modalul
-closeMenuBtn.addEventListener("click", function() {
+document.getElementById("close-meniu")?.addEventListener("click", () => {
     changeNicknameMenu.style.visibility = "hidden";
 });
 
-// Submit Nickname (AJAX)
-submitNicknameBtn.addEventListener("click", function() {
-    const newNickname = nicknameInput.value.trim();
-    if(newNickname === "") return alert("Trebuie să introduci un nickname!");
+document.getElementById("submit-Nickname")?.addEventListener("click", function() {
+    const input = document.getElementById("new-nickname");
+    const val = input.value.trim();
+    if(val === "") return alert("Introdu un nume!");
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "update_nickname.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onload = function() {
-        if(xhr.status === 200){
-            const response = JSON.parse(xhr.responseText);
-            if(response.success){
-                document.getElementById("nume").textContent = newNickname;
-                changeNicknameMenu.style.visibility = "hidden";
-                nicknameInput.value = "";
-            } else {
-                alert(response.message);
-            }
-        } else {
-            alert("Eroare server");
+        const resp = JSON.parse(xhr.responseText);
+        if(resp.success) {
+            document.getElementById("nume").textContent = val;
+            changeNicknameMenu.style.visibility = "hidden";
+            input.value = "";
         }
     };
-    xhr.send("nickname=" + encodeURIComponent(newNickname));
+    xhr.send("nickname=" + encodeURIComponent(val));
 });
 
-// --- Upload Avatar & Banner ---
-const avatarInput = document.getElementById("avatarInput");
-const bannerInput = document.getElementById("bannerInput");
-
-document.getElementById("NewAvatar").addEventListener("click", () => avatarInput.click());
-document.getElementById("NewBackground").addEventListener("click", () => bannerInput.click());
-
-avatarInput.addEventListener("change", () => uploadImage("avatar"));
-bannerInput.addEventListener("change", () => uploadImage("banner"));
-
 function uploadImage(type) {
+    const input = document.getElementById(type + 'Input');
+    if(!input.files[0]) return;
     const formData = new FormData();
-    const input = type === "avatar" ? avatarInput : bannerInput;
     formData.append(type, input.files[0]);
 
     fetch("update_profile_images.php", { method: "POST", body: formData })
-        .then(r => r.text())
         .then(() => location.reload());
 }
+
+document.getElementById("NewAvatar")?.addEventListener("click", () => document.getElementById("avatarInput").click());
+document.getElementById("NewBackground")?.addEventListener("click", () => document.getElementById("bannerInput").click());
+document.getElementById("avatarInput")?.addEventListener("change", () => uploadImage("avatar"));
+document.getElementById("bannerInput")?.addEventListener("change", () => uploadImage("banner"));
+
+// --- 3. LOGICA CHAT (LoL Style) ---
+let currentFriendId = null;
+
+function toggleChatWindow() {
+    const container = document.getElementById('lol-chat-container');
+    container.classList.toggle('minimized');
+    document.getElementById('minimize-icon').innerText = container.classList.contains('minimized') ? '▲' : '_';
+}
+
+function loadFriends() {
+    fetch('chat_handler.php?action=get_friends')
+        .then(r => r.text())
+        .then(data => document.getElementById('friends-container').innerHTML = data);
+}
+
+function selectFriend(id, nume) {
+    currentFriendId = id;
+    document.getElementById('selected-friend-id').value = id;
+    document.getElementById('chat-target-name').innerText = nume;
+    fetchPrivateMessages();
+}
+
+function fetchPrivateMessages() {
+    if(!currentFriendId) return;
+    fetch('chat_handler.php?action=fetch_private&friend_id=' + currentFriendId)
+        .then(r => r.text())
+        .then(data => {
+            const history = document.getElementById('chat-history');
+            history.innerHTML = data;
+            history.scrollTop = history.scrollHeight;
+        });
+}
+
+document.getElementById('btn-send-private')?.addEventListener('click', function() {
+    const input = document.getElementById('private-msg-input');
+    const msg = input.value.trim();
+    if(!currentFriendId || msg === "") return;
+
+    const fd = new FormData();
+    fd.append('action', 'send_private');
+    fd.append('receiver_id', currentFriendId);
+    fd.append('content', msg);
+
+    fetch('chat_handler.php', { method: 'POST', body: fd })
+        .then(() => {
+            input.value = "";
+            fetchPrivateMessages();
+        });
+});
+
+// Pornire automata
+document.addEventListener('DOMContentLoaded', () => {
+    loadFriends();
+    setInterval(fetchPrivateMessages, 2000);
+});
 </script>
+<script>
+        // Codul tău vechi (Edit Profile, Nickname, etc.)
 
+        // ADAUGĂ FUNCȚIA DE TOGGLE AICI
+        function toggleChatWindow() {
+            const chatContainer = document.getElementById('lol-chat-container');
+            chatContainer.classList.toggle('minimized');
+            
+            const icon = document.getElementById('minimize-icon');
+            icon.innerText = chatContainer.classList.contains('minimized') ? '▲' : '_';
+        }
 
+        // Restul codului de Chat (loadFriends, fetchPrivateMessages, etc.)
+    </script>
 
-
-
-
-
-
+</html>
 
 
 
 </body>
+
+</html>
+
 
 </html>
 

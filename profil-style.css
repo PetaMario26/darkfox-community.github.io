@@ -59,7 +59,64 @@
 }
 
 
+#lol-chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000; /* Mereu deasupra tuturor elementelor */
+    display: flex;
+    width: 650px; /* Mai mic pentru stilul overlay */
+    height: 400px;
+    background: rgba(1, 10, 19, 0.98);
+    border: 1px solid #c89b3c; /* Margine aurie LoL */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s ease, height 0.3s ease;
+}
 
+/* Stil când chat-ul este minimizat */
+#lol-chat-container.minimized {
+    height: 40px;
+    overflow: hidden;
+    transform: translateY(0);
+}
+
+#lol-friends-sidebar {
+    width: 180px;
+    background: rgba(1, 10, 19, 0.95);
+    border-right: 1px solid #1e2328;
+}
+
+#lol-chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#lol-chat-header {
+    cursor: pointer; /* Click aici pentru minimize/maximize */
+    padding: 10px;
+    background: #e70000;
+    border-bottom: 1px solid #1e2328;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chat-history {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Scrollbar minimalist stil LoL */
+#chat-history::-webkit-scrollbar { width: 4px; }
+#chat-history::-webkit-scrollbar-thumb { background: #c89b3c; }
+
+#lol-chat-input-area {
+    padding: 10px;
+    border-top: 1px solid #ffffff;
+}
 
 
 
