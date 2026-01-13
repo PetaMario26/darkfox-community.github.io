@@ -1,6 +1,6 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "root", "vulpecola");
 
 if ($conn->connect_error) { die("Conexiune esuata: " . $conn->connect_error); }
 
@@ -504,7 +504,7 @@ body {
   
    <nav class="SignIn">
     <?php if ($isLoggedIn): ?>
-        <a href="Profil.php" style="margin-right: 10px; font-weight: bold; ">
+        <a href="profil.php" style="margin-right: 10px; font-weight: bold; ">
              <?php echo htmlspecialchars($userName); ?>
         </a>
         <a href="logout.php" >Log Out</a>
@@ -554,7 +554,7 @@ body {
         <a href = "Shop.html">Shop</a>
         <a href = "Tutorials.php">Tutorials</a>
         <a href = "News.php">News</a>
-        <a href = "Profil.php ">Sign In</a>
+        <a href = "profil.php ">Sign In</a>
 	
     </nav>
 

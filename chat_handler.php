@@ -1,6 +1,6 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "root", "vulpecola");
 if ($conn->connect_error) { die("Eroare DB"); }
 
 if (!isset($_SESSION['user_id'])) { exit("Neautorizat"); }

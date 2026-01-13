@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['user_id'])) exit;
 
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "", "vulpecola");
 $user_id = $_SESSION['user_id'];
 
 $uploadDir = "uploads/";

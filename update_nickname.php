@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         exit();
     }
 
-    $conn = new mysqli("localhost","root","","vulpecola");
+    $conn = new mysqli("db","root","","vulpecola");
     if($conn->connect_error){
         echo json_encode(["success"=>false,"message"=>"Eroare DB"]);
         exit();

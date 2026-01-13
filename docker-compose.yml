@@ -1,0 +1,21 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: vulpecola_db
+    restart: always
+    environment:
+      - MYSQL_DATABASE=vulpecola
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./vulpecola.sql:/docker-entrypoint-initdb.d/init.sql
+
+  web:
+    build: .
+    container_name: vulpecola_web
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db

@@ -2,9 +2,9 @@
 session_start();
 
 // 1. Conectarea la baza de date vulpecola
-$servername = "localhost";
+$servername = "db";
 $username = "root";
-$password = "";
+$password = "root";
 $dbname = "vulpecola";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -1,6 +1,6 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "root", "vulpecola");
 
 // Verificăm dacă există un user logat
 $isLoggedIn = isset($_SESSION['user_id']);
@@ -56,7 +56,7 @@ if ($isLoggedIn) {
 
     <nav class="SignIn">
     <?php if ($isLoggedIn): ?>
-        <a href="Profil.php" style="margin-right: 10px; font-weight: bold;">
+        <a href="profil.php" style="margin-right: 10px; font-weight: bold;">
              <?php echo htmlspecialchars($userName); ?>
         </a>
         <a href="logout.php" >Log Out</a>

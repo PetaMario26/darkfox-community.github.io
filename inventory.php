@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "root", "vulpecola");
 if ($conn->connect_error) { die("Conexiune esuata: " . $conn->connect_error); }
 
 $userId = (int) $_SESSION['user_id'];

@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "root", "vulpecola");
 if ($conn->connect_error) {
     die("Eroare DB");
 }
@@ -97,7 +97,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "root", "vulpecola");
 if ($conn->connect_error) {
     die("Eroare DB");
 }
@@ -251,7 +251,7 @@ if ($result->num_rows === 0) {
                 <nav class="top-nav-buttons">
 
                     <a href="index.php">🏠Home</a>
-                    <a href="shop.php">🛒Shop</a>
+                    <a href="Shop.php">🛒Shop</a>
                     <a href="Tutorials.php">🔍Tutorials</a>
                     <a href="News.php">&#128226 News</a>
 

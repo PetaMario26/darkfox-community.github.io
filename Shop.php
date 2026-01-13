@@ -4,7 +4,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-$conn = new mysqli("localhost", "root", "", "vulpecola");
+$conn = new mysqli("db", "root", "root", "vulpecola");
 
 if ($conn->connect_error) { die("Conexiune esuata: " . $conn->connect_error); }
 
@@ -34,7 +34,7 @@ if (isset($_POST['buy_item'])) {
             if($conn->query($inventory_query)) {
                 echo "<script>
                         alert('Ai cumpărat " . addslashes($item_data['Item']) . "!');
-                        window.location.href='shop.php'; 
+                        window.location.href='Shop.php'; 
                       </script>";
                 exit(); // Oprește încărcarea paginii albe
             }
@@ -42,14 +42,14 @@ if (isset($_POST['buy_item'])) {
             // FONDURI INSUFICIENTE - Redirect înapoi la shop.php după alertă
             echo "<script>
                     alert('Fonduri insuficiente! Ai nevoie de " . $item_data['Cost'] . " CC.');
-                    window.location.href='shop.php';
+                    window.location.href='Shop.php';
                   </script>";
             exit(); 
         }
     } else {
         echo "<script>
                 alert('Eroare: Produs sau profil negăsit!');
-                window.location.href='shop.php';
+                window.location.href='Shop.php';
               </script>";
         exit();
     }
@@ -89,12 +89,12 @@ if (isset($_POST['buy_item'])) {
             $inventory_query = "INSERT INTO user_inventory (user_id, item_id, quantity) VALUES ($user_id, $item_id, 1) ON DUPLICATE KEY UPDATE quantity = quantity + 1";
             
             if($conn->query($inventory_query)) {
-                echo "<script>alert('Ai cumparat " . addslashes($item_data['Item']) . "!'); window.location.href='shop.php';</script>";
+                echo "<script>alert('Ai cumparat " . addslashes($item_data['Item']) . "!'); window.location.href='Shop.php';</script>";
                 exit();
             }
         } else {
             // Aici e magia: alerta apare, dar window.location te tine pe loc
-            echo "<script>alert('Fonduri insuficiente!'); window.location.href='shop.php';</script>";
+            echo "<script>alert('Fonduri insuficiente!'); window.location.href='Shop.php';</script>";
             exit();
         }
     }
@@ -471,7 +471,7 @@ if (isset($_POST['buy_item'])) {
             <small style="color: #aaa; font-size: 11px;">BALANCE</small>
         </div>
         
-        <a href="Profil.php"> My Account </a>
+        <a href="profil.php"> My Account </a>
     <?php else: ?>
         <a href="login.php"> Sign In </a>
     <?php endif; ?>
@@ -508,7 +508,7 @@ if (isset($_POST['buy_item'])) {
 
 
    <section class="filter">
-    <form method="GET" action="shop.php" style="width: 100%;">
+    <form method="GET" action="Shop.php" style="width: 100%;">
         <fieldset style="border: none; margin:6px;">
             <header>
                 <h3>Filter</h3>
@@ -570,7 +570,7 @@ if (isset($_POST['buy_item'])) {
                     <h3><?php echo htmlspecialchars($row['Item']); ?></h3> 
                     <p><?php echo number_format($row['Cost']); ?> credits</p> 
                     
-                   <form method="POST" action="shop.php">
+                   <form method="POST" action="Shop.php">
     <input type="hidden" name="item_id" value="<?php echo $row['Item_id']; ?>">
     
     <button type="submit" name="buy_item" 
